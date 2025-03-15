@@ -9,7 +9,7 @@ services:
     env_file :
       - .env
     networks :
-      -inception
+      - inception
     restart : always
     healthcheck:
       test: ["CMD", "nc", "-zv", "mariadb", "3306"]
@@ -21,15 +21,15 @@ services:
     image: nginx:user
     container_name: nignx
     build: ./src/nginx
-    port:
+    ports:
       - "443:443"
     depends_on:
       - wordpress
     volumes:
       - wordpress:/var/www/wordpress
     networks:
-      inception
-    resart: always
+      - inception
+    restart: always
 #wordpress
   wordpress:
     image: wordpress:user
@@ -37,9 +37,9 @@ services:
     build: ./src/wordpress
     depends_on:
       mariadb:
-        container:service_healthy
+        condition: service_healthy
     volumes:
-      wordpress:/var/www/wordpress
+      -  wordpress:/var/www/wordpress
     env_file:
       - .env
     networks:
@@ -62,6 +62,6 @@ volumes:
       o : bind
       type: none
 
-networks:
+networks :
   inception:
     name: inception
