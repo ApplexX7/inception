@@ -1,16 +1,10 @@
 #!/bin/bash
 
-service mariadb start
+mysqladmin -u root -p shutdown
 
-sleep 5
+mysql -u root -p
 
-mariadb -e "CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\`;"
-
-mariadb -e "CREATE USER IF NOT EXISTS \`${DB_USER}\`@'%' IDENTIFIED BY '${DB_PASSWORD}';"
-
-mariadb -e "GRANT ALL PRIVILEGES ON \`${DB_NAME}\` .* TO \`${DB_USER}\`@'%';"
-
-mariadb -e "FLUSH PRIVILEGES"
+mysql
 
 mysqladmin -u root -p$DB_ROOT_PASSWORD shutdown
 

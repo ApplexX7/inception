@@ -1,11 +1,19 @@
-FROM debian:bullseye
+FROM alpine:3.20
 
-RUN apt-get update -y && apt-get upgrade
+RUN apk add --no-cache mariadb mariadb-client 
 
-RUN apt install mariadb-server -y
+RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
+
+RUN mkdir -p /var/lib/mysql && \
+    chown -R mysql:mysql /var/lib/mysql && \
+    chmod 700 /var/lib/mysql
+
+RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
+
+COPY ./my.cnf /etc/my.cnf.d/mariadb-server.cnf
 
 COPY ./mydb-config.sh /mydb-config.sh
 
-RUN  chmod +x mydb-config.sh
+RUN chmod +x /mydb-config.sh
 
 CMD ["./mydb-config.sh"]
