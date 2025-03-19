@@ -10,10 +10,12 @@ RUN mkdir -p /var/lib/mysql && \
 
 RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
-COPY ./my.cnf /etc/my.cnf.d/mariadb-server.cnf
-
 COPY ./mydb-config.sh /mydb-config.sh
 
+
+COPY ./my.cnf /etc/my.cnf.d/mariadb-server.cnf
 RUN chmod +x /mydb-config.sh
 
-CMD ["./mydb-config.sh"]
+EXPOSE 3306
+
+ENTRYPOINT ["/mydb-config.sh"]

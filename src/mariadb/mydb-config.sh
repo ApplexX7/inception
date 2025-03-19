@@ -1,11 +1,24 @@
-#!/bin/bash
+#!/bin/sh
 
-mysqladmin -u root -p shutdown
+# Start MySQL server in safe mode (this will restart MySQL)
+mysqld --user=mysql &
 
-mysql -u root -p
+MYSQL_PID=$!
+# Wait a bit to allow MySQL to start (optional)
+sleep 5
 
-mysql
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 
-mysqladmin -u root -p$DB_ROOT_PASSWORD shutdown
+# Create the user if not exists
+mysql -u root -e "CREATE USER IF NOT EXISTS '$DB_USER'@localhost IDENTIFIED BY '$DB_USER_PASSWORD';"
 
-mysqld_safe --port=3306 --bind-address=0.0.0.0 --datadir='/var/lib/mysql'
+# Grant privileges to the new user
+mysql -u root  -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@localhost IDENTIFIED BY '$DB_USER_PASSWORD';"
+
+# Flush privileges to ensure changes take effect
+mysql -u root -e "FLUSH PRIVILEGES;"
+
+# Optionally, restart MySQL server after granting permissions (if needed)
+kill $MYSQL_PID
+
+exec mysqld --user=mysql --port=3306
