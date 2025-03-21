@@ -1,5 +1,6 @@
 FROM alpine:3.20
 
+
 RUN apk add --no-cache mariadb mariadb-client 
 
 RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
@@ -14,6 +15,7 @@ COPY ./mydb-config.sh /mydb-config.sh
 
 
 COPY ./my.cnf /etc/my.cnf.d/mariadb-server.cnf
+
 RUN chmod +x /mydb-config.sh
 
 EXPOSE 3306

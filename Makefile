@@ -18,7 +18,7 @@ start:
 	docker-compose -f ./docker-compose.yml start
 
 build:
-	docker-compose -f ./docker-compose.yml build
+	docker-compose -f  ./docker-compose.yml build
 
 
 clean:
