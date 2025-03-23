@@ -11,7 +11,7 @@ mariadbd --user=mysql &
 MYSQL_PID="$!"
 
 # Wait a bit to allow MySQL to start (optional)
-until mysql -u root --password="$MD_ROOT_PASSWORD" -e "SELECT 1" >/dev/null 2>&1; do
+until mysql -u root  -e "SELECT 1" >/dev/null 2>&1; do
     echo "Waiting for MySQL to start..."
     sleep 5
 done
