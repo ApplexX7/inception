@@ -18,6 +18,8 @@ COPY ./my.cnf /etc/my.cnf.d/mariadb-server.cnf
 
 RUN chmod +x /mydb-config.sh
 
+RUN chmod 644 /etc/my.cnf.d/mariadb-server.cnf
+
 EXPOSE 3306
 
 ENTRYPOINT ["/mydb-config.sh"]

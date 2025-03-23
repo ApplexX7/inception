@@ -11,18 +11,18 @@ mariadbd --user=mysql &
 MYSQL_PID="$!"
 
 # Wait a bit to allow MySQL to start (optional)
-#ntil mysql -u root --password="$MD_ROOT_PASSWORD" -e "SELECT 1" >/dev/null 2>&1; do
- #   echo "Waiting for MySQL to start..."
+until mysql -u root --password="$MD_ROOT_PASSWORD" -e "SELECT 1" >/dev/null 2>&1; do
+    echo "Waiting for MySQL to start..."
     sleep 5
-#done
+done
 
 mysql -u root -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 
 # Create the user if not exists
-mysql -u root -e "CREATE USER IF NOT EXISTS '$DB_USER'@localhost IDENTIFIED BY '$DB_USER_PASSWORD';"
+mysql -u root -e "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_USER_PASSWORD';"
 
 # Grant privileges to the new user
-mysql -u root  -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@localhost IDENTIFIED BY '$DB_USER_PASSWORD';"
+mysql -u root  -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%' IDENTIFIED BY '$DB_USER_PASSWORD';"
 
 # Flush privileges to ensure changes take effect
 mysql -u root -e "FLUSH PRIVILEGES;"

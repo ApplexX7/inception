@@ -10,4 +10,8 @@ RUN mkdir -p /var/www/wordpress
 
 RUN chmod +x wp.sh
 
+#COPY ./wp-config.php /var/www/wordpress/wp-config.php
+
+RUN chmod -R 755 /var/www/wordpress
+
 ENTRYPOINT ["./wp.sh"]
