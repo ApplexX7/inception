@@ -1,17 +1,40 @@
-FROM debian:bullseye
+FROM php:8-cli-alpine3.20
 
-RUN apt-get update -y 
+# Install system dependencies and PHP extensions
+RUN apk update && apk add --no-cache \
+    mariadb-client \
+    curl \
+    unzip \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    libxml2-dev \
+    && docker-php-ext-install \
+    mysqli \
+    opcache \
+    json \
+    mbstring \
+    zlib \
+    gd \
+    dom \
+    iconv
 
-RUN apt-get install -y curl php php7.4-fpm php-mysql mariadb-client
+# Install WP-CLI (WordPress Command Line Interface)
+RUN curl -s -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
-COPY ./wp.sh /
+# Create the WordPress directory and set appropriate permissions
+RUN mkdir -p /var/www/wordpress && chmod -R 755 /var/www/wordpress
 
-RUN mkdir -p /var/www/wordpress
+# Copy the WordPress installation script
+COPY ./tools/wordpress.sh /wordpress.sh
+RUN chmod +x /wordpress.sh
 
-RUN chmod +x wp.sh
+# Set proper permissions for the WordPress directory
+RUN chown -R nobody:nobody /var/www/wordpress
 
-#COPY ./wp-config.php /var/www/wordpress/wp-config.php
+# Expose PHP-FPM port (usually port 9000 for PHP-FPM)
+EXPOSE 9000
 
-RUN chmod -R 755 /var/www/wordpress
+# Set the entrypoint to the WordPress installation script
+ENTRYPOINT ["/wordpress.sh"]
 
-ENTRYPOINT ["./wp.sh"]

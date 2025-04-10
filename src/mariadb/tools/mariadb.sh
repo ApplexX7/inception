@@ -1,0 +1,35 @@
+#!/bin/sh
+
+set -e
+
+export DB_NAME=mariadb_database
+export DB_USER=mohilali
+export DB_USER_PASSWORD=hilali123
+
+mkdir -p /run/mysqld
+chown mysql:mysql /run/mysqld
+
+echo "starting Mariadb ..."
+mysqld --user=mysql --datadir=/var/lib/mysql &
+
+until [ -S /run/mysqld/mysqld.sock ]; do
+	echo "Mariadb is not running yet"
+	sleep 2
+done
+
+echo "Maraidb started, creating database and user ..."
+
+mysql -u root -e "
+CREATE DATABASE IF NOT EXISTS $DB_NAME;
+
+CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_USER_PASSWORD';
+
+GRANT ALL PRIVILEGES ON \`$DB_NAME\`.* TO '$DB_USER'@'%';
+
+FLUSH PRIVILEGES;"
+
+mariadb-admin --user=root shutdown
+
+echo "Mariadb setup completed. Running in the forground."
+
+exec mysqld --user=mysql --datadir=/var/lib/mysql
