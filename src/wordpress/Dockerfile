@@ -1,40 +1,49 @@
-FROM php:8-cli-alpine3.20
+FROM alpine:3.20
 
-# Install system dependencies and PHP extensions
-RUN apk update && apk add --no-cache \
-    mariadb-client \
+# Install PHP 8.3 FPM and required extensions
+RUN apk add --no-cache \
+    php83 \
+    php83-fpm \
+    php83-mysqli \
+    php83-json \
+    php83-openssl \
+    php83-curl \
+    php83-xml \
+    php83-phar \
+    php83-intl \
+    php83-dom \
+    php83-ctype \
+    php83-session \
+    php83-mbstring \
+    php83-gd \
     curl \
     unzip \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    libxml2-dev \
-    && docker-php-ext-install \
-    mysqli \
-    opcache \
-    json \
-    mbstring \
-    zlib \
-    gd \
-    dom \
-    iconv
+    mariadb-client \
+    shadow \
+    su-exec
 
-# Install WP-CLI (WordPress Command Line Interface)
+# Install WP-CLI (WordPress CLI tool)
 RUN curl -s -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
-# Create the WordPress directory and set appropriate permissions
-RUN mkdir -p /var/www/wordpress && chmod -R 755 /var/www/wordpress
+RUN echo "memory_limit = "
+# Create WordPress directory
+RUN mkdir -p /var/www/wordpress
 
-# Copy the WordPress installation script
+# Set permissions for WordPress files
+RUN chown -R nobody:nobody /var/www/wordpress && \
+    chmod -R 755 /var/www/wordpress
+
+# Copy custom WordPress install script
 COPY ./tools/wordpress.sh /wordpress.sh
 RUN chmod +x /wordpress.sh
 
-# Set proper permissions for the WordPress directory
-RUN chown -R nobody:nobody /var/www/wordpress
+# Optional: copy your custom www.conf for PHP-FPM config
+# COPY ./conf/www.conf /etc/php83/php-fpm.d/www.conf
 
-# Expose PHP-FPM port (usually port 9000 for PHP-FPM)
+# Expose PHP-FPM port
 EXPOSE 9000
 
-# Set the entrypoint to the WordPress installation script
+# Launch entrypoint script (install WordPress or start php-fpm)
 ENTRYPOINT ["/wordpress.sh"]
 

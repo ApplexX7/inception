@@ -2,6 +2,7 @@
 
 set -e
 
+
 # Exporting environment variables (you can move these to Dockerfile or compose file later)
 export DB_NAME=mariadb_database
 export DB_USER=mohilali
@@ -17,6 +18,7 @@ export WP_USER_EMAIL=user@gmail.com
 export WP_USER_ROLE=author
 
 cd /var/www/wordpress
+
 
 # Permissions
 chmod -R 755 /var/www/wordpress
