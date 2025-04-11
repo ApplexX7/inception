@@ -6,11 +6,11 @@ export DB_NAME=mariadb_database
 export DB_USER=mohilali
 export DB_USER_PASSWORD=hilali123
 
-mkdir -p /run/mysqld
-chown mysql:mysql /run/mysqld
+#mkdir -p /run/mysqld
+#chown mysql:mysql /run/mysqld
 
 echo "starting Mariadb ..."
-mysqld --user=mysql --datadir=/var/lib/mysql &
+mysqld --user=mysql &
 
 until [ -S /run/mysqld/mysqld.sock ]; do
 	echo "Mariadb is not running yet"

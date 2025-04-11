@@ -22,11 +22,13 @@ RUN apk add --no-cache \
     shadow \
     su-exec
 
+
+
 # Install WP-CLI (WordPress CLI tool)
 RUN curl -s -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
-RUN echo "memory_limit = "
+
 # Create WordPress directory
 RUN mkdir -p /var/www/wordpress
 
@@ -34,12 +36,16 @@ RUN mkdir -p /var/www/wordpress
 RUN chown -R nobody:nobody /var/www/wordpress && \
     chmod -R 755 /var/www/wordpress
 
+
 # Copy custom WordPress install script
 COPY ./tools/wordpress.sh /wordpress.sh
 RUN chmod +x /wordpress.sh
 
 # Optional: copy your custom www.conf for PHP-FPM config
-# COPY ./conf/www.conf /etc/php83/php-fpm.d/www.conf
+COPY ./wp-config.php /var/www/html/
+RUN chmod 644 /var/www/html/wp-config.php
+# Increase PHP memory limit
+RUN echo "memory_limit = 512M" > /etc/php83/conf.d/00_custom.ini
 
 # Expose PHP-FPM port
 EXPOSE 9000

@@ -1,9 +1,7 @@
 #!/bin/sh
 
-set -e
 
-
-# Exporting environment variables (you can move these to Dockerfile or compose file later)
+# Exporting environment variables (move to Dockerfile or compose file later)
 export DB_NAME=mariadb_database
 export DB_USER=mohilali
 export DB_USER_PASSWORD=hilali123
@@ -19,18 +17,17 @@ export WP_USER_ROLE=author
 
 cd /var/www/wordpress
 
-
-# Permissions
+# Set Permissions
 chmod -R 755 /var/www/wordpress
-chown -R nobody:nobody /var/www/wordpress  # Alpine uses nobody:nobody; www-data may not exist
+chown -R nobody:nobody /var/www/wordpress
 
-# Fix 1: Space required after [ and before ]
+# Download WordPress if not already downloaded
 if [ ! -f /var/www/wordpress/wp-load.php ]; then
     echo "[INFO] Downloading WordPress..."
     wp core download --path=/var/www/wordpress --allow-root
-fi      
+fi
 
-# Fix 2: Typo in path: /va/ should be /var/
+ #Create wp-config.php if not already created
 if [ ! -f /var/www/wordpress/wp-config.php ]; then
     echo "[INFO] Creating wp-config.php..."
     wp config create \
@@ -40,9 +37,9 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
         --dbpass="$DB_USER_PASSWORD" \
         --dbhost="mariadb:3306" \
         --allow-root
-fi      
+fi
 
-# Install WordPress if not already installed
+# Install WordPress if not installed already
 if ! wp core is-installed --path=/var/www/wordpress --allow-root; then
     echo "[INFO] Installing WordPress..."
     wp core install \
@@ -54,18 +51,19 @@ if ! wp core is-installed --path=/var/www/wordpress --allow-root; then
         --admin_email="$WP_ADMIN_EMAIL" \
         --allow-root
 
-    # Fix 3: Missing $ for WP_USER_EMAIL
+    echo "[INFO] Creating user..."
     wp user create \
         "$WP_USER_NAME" "$WP_USER_EMAIL" \
         --user_pass="$WP_USER_PASSWORD" \
         --role="$WP_USER_ROLE" \
         --path=/var/www/wordpress \
         --allow-root
-fi      
+fi
 
-sed -i 's@listen = /run/php/php7.4-fpm.sock@listen = 0.0.0.0:9000@' /etc/php/7.4/fpm/pool.d/www.conf
+# Modify PHP-FPM Configuration to Listen on Port 9000
+sed -i 's@listen = /run/php/php8.3-fpm.sock@listen = 0.0.0.0:9000@' /etc/php83/php-fpm.d/www.conf
 
 # Start PHP-FPM
 echo "[INFO] Starting PHP-FPM..."
-exec php-fpm81 -F
+exec php-fpm83 -F
 
