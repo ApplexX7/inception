@@ -42,8 +42,8 @@ COPY ./tools/wordpress.sh /wordpress.sh
 RUN chmod +x /wordpress.sh
 
 # Optional: copy your custom www.conf for PHP-FPM config
-COPY ./wp-config.php /var/www/html/
-RUN chmod 644 /var/www/html/wp-config.php
+#COPY ./wp-config.php /var/www/html/
+#RUN chmod 644 /var/www/html/wp-config.php
 # Increase PHP memory limit
 RUN echo "memory_limit = 512M" > /etc/php83/conf.d/00_custom.ini
 

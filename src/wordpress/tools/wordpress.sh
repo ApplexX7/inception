@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 
 # Exporting environment variables (move to Dockerfile or compose file later)
 export DB_NAME=mariadb_database
@@ -61,7 +62,7 @@ if ! wp core is-installed --path=/var/www/wordpress --allow-root; then
 fi
 
 # Modify PHP-FPM Configuration to Listen on Port 9000
-sed -i 's@listen = /run/php/php8.3-fpm.sock@listen = 0.0.0.0:9000@' /etc/php83/php-fpm.d/www.conf
+sed -i 's@^listen = .*@listen = 0.0.0.0:9000@' /etc/php83/php-fpm.d/www.conf
 
 # Start PHP-FPM
 echo "[INFO] Starting PHP-FPM..."
