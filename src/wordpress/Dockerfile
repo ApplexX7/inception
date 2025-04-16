@@ -30,11 +30,11 @@ RUN curl -s -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-
 
 
 # Create WordPress directory
-RUN mkdir -p /var/www/wordpress
+RUN mkdir -p /var/www/html
 
 # Set permissions for WordPress files
-RUN chown -R nobody:nobody /var/www/wordpress && \
-    chmod -R 755 /var/www/wordpress
+RUN chown -R nobody:nobody /var/www/html && \
+    chmod -R 755 /var/www/html
 
 
 # Copy custom WordPress install script

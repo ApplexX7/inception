@@ -9,8 +9,8 @@ RUN openssl req -x509 -nodes -subj "/C=MA/ST=KH/O=1337, Inc./CN=mydomain.com" \
 
 COPY ./config/nginx.conf /etc/nginx/nginx.conf
 
-RUN mkdir -p /var/www/wordpress
+RUN mkdir -p /var/www/html
 
-RUN chown -R nobody:nobody /var/www/wordpress
+RUN chown -R nobody:nobody /var/www/html
 
 CMD ["nginx", "-g", "daemon off;"]

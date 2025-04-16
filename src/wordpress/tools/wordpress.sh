@@ -16,23 +16,23 @@ export WP_USER_PASSWORD=mohammedhilali123
 export WP_USER_EMAIL=user@gmail.com
 export WP_USER_ROLE=author
 
-cd /var/www/wordpress
+cd /var/www/html
 
 # Set Permissions
-chmod -R 755 /var/www/wordpress
-chown -R nobody:nobody /var/www/wordpress
+chmod -R 755 /var/www/html
+chown -R nobody:nobody /var/www/html
 
 # Download WordPress if not already downloaded
-if [ ! -f /var/www/wordpress/wp-load.php ]; then
+if [ ! -f /var/www/html/wp-load.php ]; then
     echo "[INFO] Downloading WordPress..."
-    wp core download --path=/var/www/wordpress --allow-root
+    wp core download --path=/var/www/html --allow-root
 fi
 
  #Create wp-config.php if not already created
-if [ ! -f /var/www/wordpress/wp-config.php ]; then
+if [ ! -f /var/www/html/wp-config.php ]; then
     echo "[INFO] Creating wp-config.php..."
     wp config create \
-        --path=/var/www/wordpress \
+        --path=/var/www/html \
         --dbname="$DB_NAME" \
         --dbuser="$DB_USER" \
         --dbpass="$DB_USER_PASSWORD" \
@@ -41,10 +41,10 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
 fi
 
 # Install WordPress if not installed already
-if ! wp core is-installed --path=/var/www/wordpress --allow-root; then
+if ! wp core is-installed --path=/var/www/html --allow-root; then
     echo "[INFO] Installing WordPress..."
     wp core install \
-        --path=/var/www/wordpress \
+        --path=/var/www/html \
         --url="$DOMAIN_NAME" \
         --title="$WP_TITLE" \
         --admin_user="$WP_ADMIN" \
@@ -57,7 +57,7 @@ if ! wp core is-installed --path=/var/www/wordpress --allow-root; then
         "$WP_USER_NAME" "$WP_USER_EMAIL" \
         --user_pass="$WP_USER_PASSWORD" \
         --role="$WP_USER_ROLE" \
-        --path=/var/www/wordpress \
+        --path=/var/www/html \
         --allow-root
 fi
 
