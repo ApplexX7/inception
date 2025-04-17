@@ -2,9 +2,6 @@
 
 set -e
 
-export DB_NAME=mariadb_database
-export DB_USER=mohilali
-export DB_USER_PASSWORD=hilali123
 
 #mkdir -p /run/mysqld
 #chown mysql:mysql /run/mysqld

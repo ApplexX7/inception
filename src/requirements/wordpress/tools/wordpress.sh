@@ -3,18 +3,6 @@
 set -e
 
 # Exporting environment variables (move to Dockerfile or compose file later)
-export DB_NAME=mariadb_database
-export DB_USER=mohilali
-export DB_USER_PASSWORD=hilali123
-export DOMAIN_NAME=example.local
-export WP_TITLE=inception
-export WP_ADMIN=mohammed
-export WP_ADMIN_PASS=mohammed123
-export WP_ADMIN_EMAIL=test@gmail.com
-export WP_USER_NAME=mohammedhilali
-export WP_USER_PASSWORD=mohammedhilali123
-export WP_USER_EMAIL=user@gmail.com
-export WP_USER_ROLE=author
 
 cd /var/www/html
 
