@@ -1,34 +1,34 @@
+version: '3.8'
+
 services:
   mariadb:
-    image: mariadb:user
+    image: mariadb
     container_name: mariadb
     build: ./requirements/mariadb
     volumes:
-      - mariadb:/var/lib/mysql
+      - mariadb_v:/var/lib/mysql
     env_file:
-      - .env
+      - ./.env
     networks:
       - inception
+    ports:
+      - "3306:3306"
     restart: always
-    healthcheck:
-      test: ["CMD", "nc", "-zv", "mariadb", "3306"]
-      interval: 1s
-      timeout: 5s
-      retries: 10
 
   wordpress:
-    image: wordpress:user
+    image: wordpress
     container_name: wordpress
     build: ./requirements/wordpress
     depends_on:
-      mariadb:
-        condition: service_healthy
+      - mariadb
     volumes:
-      - wordpress:/var/www/wordpress
+      - wordpress_v:/var/www/html
     env_file:
-      - .env
+      - ./.env
     networks:
       - inception
+    ports:
+      - "9000:9000"
     restart: always
 
   nginx:
@@ -40,20 +40,20 @@ services:
     depends_on:
       - wordpress
     volumes:
-      - wordpress:/var/www/wordpress:ro
+      - wordpress_v:/var/www/html
     networks:
       - inception
     restart: always
 
 volumes:
-  mariadb:
+  mariadb_v:
     name: mariadb
     driver: local
     driver_opts:
       type: none
       o: bind
       device: /home/mohilali/data/mariadb
-  wordpress:
+  wordpress_v:
     name: wordpress
     driver: local
     driver_opts:
