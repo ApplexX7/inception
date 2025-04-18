@@ -9,24 +9,10 @@
  *
  * @package WordPress
  */
-putenv("DB_USER=mohilali")
-putenv("DB_USER_PASSWORD=password123")
-putenv("DB_NAME=data_name")
-
-DOMAIN_NAME=mohilali42.fr
-WP_ADMIN=mohammedali
-WP_ADMIN_PASS=mohilali123
-WP_TITLE=42_inception
-WP_ADMINE_EMAIL=mr.mhdhilali@email.com
-
-WP_USER_NAME=hilali
-WP_USER_EMAIL=apx.hilali@email.com
-WP_USER_PASSWORD=Hilali1112004
-WP_USER_ROLE=author
 // ** Database settings ** //
-define( 'DB_NAME', $DB_NAME ); // The name of your database
-define( 'DB_USER', $DB_USER_NAME ); // Your MySQL username
-define( 'DB_PASSWORD', $DB_USER_PASSWORD ); // Your MySQL password
+define( 'DB_NAME', "mariadb_database" ); // The name of your database
+define( 'DB_USER', "mohilali" ); // Your MySQL username
+define( 'DB_PASSWORD', "hilali123" ); // Your MySQL password
 define( 'DB_HOST', 'mariadb:3306' ); // Database host (MariaDB container and port)
 
 // ** Authentication unique keys and salts. ** //
@@ -52,4 +38,3 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // ** Sets up WordPress vars and included files. ** //
 require_once( ABSPATH . 'wp-settings.php' );
-

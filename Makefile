@@ -6,32 +6,31 @@ all: up
 up: build
 	@mkdir -p $(WP_DATA)
 	@mkdir -p $(DB_DATA)
-	docker-compose -f ./docker-compose.yml up -d
+	docker-compose -f ./src/docker-compose.yml up -d
 
 down:
-	docker-compose -f ./docker-compose.yml down
+	docker-compose -f ./src/docker-compose.yml down
 
 stop:
-	docker-compose -f ./docker-compose.yml stop
+	docker-compose -f ./src/docker-compose.yml stop
 
 start:
-	docker-compose -f ./docker-compose.yml start
+	docker-compose -f ./src/docker-compose.yml start
 
 build:
-	docker-compose -f  ./docker-compose.yml build --no-cache
-
+	docker-compose -f ./src/docker-compose.yml build
 
 clean:
-	docker stop $$(docker ps -qa)
-	docker rm $$(docker ps -qa)
-	docker rmi -f $$(docker images -qa)
-	docker volume rm $$(docker volume ls -q)
-	docker network rm $$(docker network ls -q)
+	docker stop $$(docker ps -qa) || true
+	docker rm $$(docker ps -qa) || true
+	docker rmi -f $$(docker images -qa) || true
+	docker volume rm $$(docker volume ls -q) || true
+	docker network rm $$(docker network ls -q) || true
 	rm -rf $(WP_DATA)
-	mr -rf $(DB_DATA)
+	rm -rf $(DB_DATA)
 
-re : clean up
+re: clean up
 
-prune: clean
+prune:
 	docker system prune -a --volumes -f
 
