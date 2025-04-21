@@ -21,16 +21,39 @@ build:
 	docker-compose -f ./src/docker-compose.yml build
 
 clean:
-	docker stop $$(docker ps -qa) || true
-	docker rm $$(docker ps -qa) || true
-	docker rmi -f $$(docker images -qa) || true
-	docker volume rm $$(docker volume ls -q) || true
-	docker network rm $$(docker network ls -q) || true
-	rm -rf $(WP_DATA)
-	rm -rf $(DB_DATA)
+	# Stop all containers (only if containers exist)
+	@containers=$$(docker ps -qa); \
+	if [ -n "$$containers" ]; then \
+		docker stop $$containers; \
+		docker rm $$containers; \
+	fi
+	
+	# Remove all images (only if images exist)
+	@images=$$(docker images -qa); \
+	if [ -n "$$images" ]; then \
+		docker rmi -f $$images; \
+	fi
+	
+	# Remove all volumes (only if volumes exist)
+	@volumes=$$(docker volume ls -q); \
+	if [ -n "$$volumes" ]; then \
+		docker volume rm $$volumes; \
+	fi
+	
+	# Remove all networks (only if networks exist, and not pre-defined ones)
+	@networks=$$(docker network ls -q); \
+	for network in $$networks; do \
+		if [[ "$$network" != "bridge" && "$$network" != "host" && "$$network" != "none" ]]; then \
+			docker network rm $$network; \
+		fi \
+	done
+	
+	# Remove the data directories
+	sudo rm -rf $(WP_DATA)
+	sudo rm -rf $(DB_DATA)
 
 re: clean up
 
-prune:
+prune: clean
 	docker system prune -a --volumes -f
 
