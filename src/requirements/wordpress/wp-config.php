@@ -15,6 +15,14 @@ define( 'DB_USER', "mohilali" ); // Your MySQL username
 define( 'DB_PASSWORD', "hilali123" ); // Your MySQL password
 define( 'DB_HOST', 'mariadb:3306' ); // Database host (MariaDB container and port)
 
+// **redis setting **//
+define ( 'WP_REDIS_HOST', 'redis' );
+define ( 'WP_REDIS_PORT', 6379 );
+define ( 'WP_REDIS_TIMEOUT', 1);
+define ( 'WP_REDIS_READ_TIMEOUT', 1);
+define ( 'WP_REDIS_DISABLED', false);
+define ( 'WP_CACHE', true);
+
 // ** Authentication unique keys and salts. ** //
 // Generate these using the WordPress secret-key service: https://api.wordpress.org/secret-key/1.1/salt/
 define('AUTH_KEY',         'Y?Q=Fd:*=];J(N$uTR8;HOUF(ur!NoOXYQ-|=@9@-R*jL#R)RWPbfTbPwl9#f`GY');

@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   mariadb:
@@ -44,6 +43,16 @@ services:
     networks:
       - inception
     restart: always
+  
+  redis:
+    image: redis
+    container_name: redis
+    build : ./requirements/bonus/redis
+    volumes:
+      - wordpress_v:/var/www/html
+    restart: always
+    networks:
+      - inception
 
 volumes:
   mariadb_v:

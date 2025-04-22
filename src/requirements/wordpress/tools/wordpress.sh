@@ -2,6 +2,7 @@
 
 set -e
 
+
 export DB_NAME=mariadb_database
 export DB_USER=mohilali
 export DB_USER_PASSWORD=hilali123
@@ -15,7 +16,7 @@ export WP_USER_PASSWORD=mohammedhilali123
 export WP_USER_EMAIL=user@gmail.com
 export WP_USER_ROLE=author
 
-# Exporting environment variables (move to Dockerfile or compose file later)
+
 
 cd /var/www/html
 
@@ -30,19 +31,19 @@ if [ ! -d /var/www/html/wp-content ]; then
 fi
 
 # Create wp-config.php if not already created
-if [ ! -f /var/www/html/wp-config.php ]; then
-    echo "[INFO] Creating wp-config.php..."
-    wp config create \
-        --path=/var/www/html \
-        --dbname="$DB_NAME" \
-        --dbuser="$DB_USER" \
-        --dbpass="$DB_USER_PASSWORD" \
-        --dbhost="mariadb:3306" \
-        --allow-root
+#if [ ! -f /var/www/html/wp-config.php ]; then
+   # echo "[INFO] Creating wp-config.php..."
+    #wp config create \
+      #  --path=/var/www/html \
+     #   --dbname="$DB_NAME" \
+    #    --dbuser="$DB_USER" \
+   #     --dbpass="$DB_USER_PASSWORD" \
+  #      --dbhost="mariadb:3306" \
+ #       --allow-root
 
     # Secure the wp-config.php with salts
-    wp config shuffle-salts --path=/var/www/html --allow-root
-fi
+    #wp config shuffle-salts --path=/var/www/html --allow-root
+#fi
 
 # Install WordPress if not installed already
 if ! wp core is-installed --path=/var/www/html --allow-root; then
@@ -63,6 +64,9 @@ if ! wp core is-installed --path=/var/www/html --allow-root; then
         --role="$WP_USER_ROLE" \
         --path=/var/www/html \
         --allow-root
+    echo "[INFO] installing redis serice plugin.."
+    wp plugin install redis-cache --activate --allow-root
+    wp redis enable --allow-root
 fi
 
 # Modify PHP-FPM Configuration to Listen on Port 9000
