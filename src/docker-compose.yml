@@ -64,20 +64,13 @@ services:
     env_file:
       - ./.env
     volumes:
-      - wordpress_files:/home/${USER}/wordpress_files
+      - wordpress_v:/var/www/html
     networks:
       - inception
     restart: always
 
 
 volumes:
-  wordpress_files:
-    name: ftp_tra
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/${USER}/wordpress_files
   mariadb_v:
     name: mariadb
     driver: local
