@@ -70,6 +70,19 @@ services:
     restart: always
 
 
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    build: ./requirements/bonus/Adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+    restart: always
+
 volumes:
   mariadb_v:
     name: mariadb
