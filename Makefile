@@ -1,11 +1,13 @@
 WP_DATA = /home/mohilali/data/wordpress
 DB_DATA = /home/mohilali/data/mariadb
+FTP_TRA = /home/mohilali/wordpress_files
 
 all: up
 
 up: build
 	@mkdir -p $(WP_DATA)
 	@mkdir -p $(DB_DATA)
+	@mkdir -p $(FTP_TRA)
 	docker-compose -f ./src/docker-compose.yml up -d
 
 down:
@@ -50,6 +52,7 @@ clean:
 	
 	# Remove the data directories
 	sudo rm -rf $(WP_DATA)
+	sudo rm -rf $(FTP_TRA)
 	sudo rm -rf $(DB_DATA)
 
 re: clean up
