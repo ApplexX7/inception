@@ -55,7 +55,7 @@ services:
       - inception
 
   ftp:
-    image: ftp:user
+    image: ftp
     container_name: ftp
     build: ./requirements/bonus/FTP
     ports:
@@ -83,6 +83,32 @@ services:
       - mariadb
     restart: always
 
+
+  static_site:
+    image: static_site
+    container_name: static_website
+    build: ./requirements/bonus/static_website
+    ports:
+      - "8000:8000"
+    networks:
+      - inception
+    restart: always
+
+
+  weavescop:
+    image: weavesope
+    container_name: weaveScope
+    build: ./requirements/bonus/weaveScope
+    ports:
+     - "4040:4040"
+    pid: host
+    networks:
+      - inception
+    environment:
+      - GOPATH=/go
+      - PATH=$$PATH:/go/bin
+    restart: unless-stopped
+            
 volumes:
   mariadb_v:
     name: mariadb
