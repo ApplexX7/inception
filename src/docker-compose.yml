@@ -95,18 +95,18 @@ services:
     restart: always
 
 
-  weavescop:
-    image: weavesope
-    container_name: weaveScope
-    build: ./requirements/bonus/weaveScope
+  glances:
+    image: glances
+    container_name: glances
+    build: ./requirements/bonus/Glances
     ports:
-     - "4040:4040"
-    pid: host
+     - "61208:61208"
     networks:
       - inception
     environment:
-      - GOPATH=/go
-      - PATH=$$PATH:/go/bin
+      - PATH="/opt/venv/bin:$PATH"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
             
 volumes:
