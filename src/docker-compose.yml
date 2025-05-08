@@ -94,21 +94,38 @@ services:
       - inception
     restart: always
 
-
-  glances:
-    image: glances
-    container_name: glances
-    build: ./requirements/bonus/Glances
+  prometheus:
+    build:
+      context: ./requirements/bonus/pro-grafa/prometheus
+    image: custom-prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
     ports:
-     - "61208:61208"
+      - "9090:9090"
     networks:
       - inception
-    environment:
-      - PATH="/opt/venv/bin:$PATH"
+    restart: always
+
+  grafana:
+    build:
+      context: ./requirements/bonus/pro-grafa/grafana
+    image: custom-grafana:latest
+    container_name: grafana
+    depends_on:
+      - prometheus
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
-            
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana.ini:/etc/grafana/grafana.ini:ro
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=secret
+    networks:
+      - inception
+    restart: always
+ 
 volumes:
   mariadb_v:
     name: mariadb
@@ -124,6 +141,8 @@ volumes:
       type: none
       o: bind
       device: "/home/${USER}/data/wordpress"
+  grafana_data:
+  prometheus_data:
 
 networks:
   inception:
