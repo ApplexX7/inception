@@ -95,8 +95,7 @@ services:
     restart: always
 
   prometheus:
-    build:
-      context: ./requirements/bonus/pro-grafa/prometheus
+    build: ./requirements/bonus/pro-grafana/prometheus
     image: custom-prometheus:latest
     container_name: prometheus
     volumes:
@@ -109,8 +108,7 @@ services:
     restart: always
 
   grafana:
-    build:
-      context: ./requirements/bonus/pro-grafa/grafana
+    build: ./requirements/bonus/pro-grafana/grafana
     image: custom-grafana:latest
     container_name: grafana
     depends_on:
