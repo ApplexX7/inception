@@ -14,6 +14,9 @@ COPY ./config/prometheus.yml /etc/grafana/provisioning/datasources/prometheus.ym
 COPY ./config/dashboard.yml /etc/grafana/provisioning/dashboards/dashboard.yml
 COPY ./config/cadvisor_grafana.json /etc/grafana/dashboards/cadvisor.json
 
+COPY ./tools/script.sh .
+RUN chmod +x script.sh
+
 # Expose the Grafana port
 EXPOSE 3000
 
@@ -21,4 +24,4 @@ EXPOSE 3000
 # Set the entry point to start Grafana with the specified config
 ENTRYPOINT ["grafana-server", "--homepath=/usr/share/grafana" ,"--config=/etc/grafana/grafana.ini"]
 
-
+CMD ["/script.sh"]
