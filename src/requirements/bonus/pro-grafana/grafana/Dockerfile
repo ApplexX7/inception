@@ -7,7 +7,12 @@ RUN apk add --no-cache grafana ca-certificates
 ENV GF_PATHS_HOME=/etc/grafana
 
 # Copy the custom grafana.ini to the appropriate location
-COPY grafana.ini /etc/grafana/grafana.ini
+COPY ./config/grafana.ini /etc/grafana/grafana.ini
+
+COPY ./config/prometheus.yml /etc/grafana/provisioning/datasources/prometheus.yml
+
+COPY ./config/dashboard.yml /etc/grafana/provisioning/dashboards/dashboard.yml
+COPY ./config/cadvisor_grafana.json /etc/grafana/dashboards/cadvisor.json
 
 # Expose the Grafana port
 EXPOSE 3000
