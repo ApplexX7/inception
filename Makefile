@@ -48,10 +48,6 @@ clean:
 		fi \
 	done
 	
-	# Remove the data directories
-	sudo rm -rf $(WP_DATA)
-	sudo rm -rf $(DB_DATA)
-
 re: clean up
 
 prune: clean

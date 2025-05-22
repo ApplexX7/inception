@@ -19,21 +19,6 @@ if [ ! -d /var/www/html/wp-content ]; then
     wp core download --path=/var/www/html --allow-root
 fi
 
-# Create wp-config.php if not already created
-#if [ ! -f /var/www/html/wp-config.php ]; then
-   # echo "[INFO] Creating wp-config.php..."
-    #wp config create \
-      #  --path=/var/www/html \
-     #   --dbname="$DB_NAME" \
-    #    --dbuser="$DB_USER" \
-   #     --dbpass="$DB_USER_PASSWORD" \
-  #      --dbhost="mariadb:3306" \
- #       --allow-root
-
-    # Secure the wp-config.php with salts
-    #wp config shuffle-salts --path=/var/www/html --allow-root
-#fi
-
 # Install WordPress if not installed already
 if ! wp core is-installed --path=/var/www/html --allow-root; then
     echo "[INFO] Installing WordPress..."

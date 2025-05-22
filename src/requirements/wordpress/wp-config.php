@@ -14,8 +14,6 @@ define( 'WP_REDIS_READ_TIMEOUT', 1 );
 define( 'WP_REDIS_DISABLED', false );
 define( 'WP_CACHE', true );
 
-// Authentication Keys and Salts...
-// (no changes needed here)
 
 // Database Table prefix
 $table_prefix = 'wp_';
