@@ -12,6 +12,8 @@ services:
       - inception
     ports:
       - "3306:3306"
+    secrets:
+      - db_user_password
     restart: always
 
   wordpress:
@@ -28,6 +30,10 @@ services:
       - inception
     ports:
       - "9000:9000"
+    secrets:
+      - wp_admin_password
+      - wp_user_password
+      - db_user_password
     restart: always
 
   nginx:
@@ -67,6 +73,8 @@ services:
       - wordpress_v:/var/www/html
     networks:
       - inception
+    secrets:
+      - ft_user_password
     restart: always
 
 
@@ -154,6 +162,16 @@ volumes:
       device: "/home/${USER}/data/wordpress"
   grafana_data:
   prometheus_data:
+
+secrets:
+  db_user_password:
+    file: ../secrets/db_user_password.txt
+  wp_admin_password:
+    file: ../secrets/wp_admin_password.txt
+  wp_user_password:
+    file: ../secrets/wp_user_password.txt
+  ft_user_password:
+    file: ../secrets/ft_user_password.txt
 
 networks:
   inception:

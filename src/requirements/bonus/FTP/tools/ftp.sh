@@ -1,6 +1,9 @@
 #!/bin/sh
 
 # Create user if it doesn't exist
+
+FTP_PASSWD=$(cat /run/secrets/ft_user_password)
+
 if ! id -u "$FTP_USER" >/dev/null 2>&1; then
 	adduser -D -h "/home/$FTP_USER" "$FTP_USER"
 	echo "$FTP_USER:$FTP_PASSWD" | chpasswd
