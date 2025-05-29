@@ -10,8 +10,6 @@ services:
       - ./.env
     networks:
       - inception
-    ports:
-      - "3306:3306"
     secrets:
       - db_user_password
     restart: always
@@ -28,8 +26,6 @@ services:
       - ./.env
     networks:
       - inception
-    ports:
-      - "9000:9000"
     secrets:
       - wp_admin_password
       - wp_user_password
