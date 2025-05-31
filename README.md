@@ -31,6 +31,8 @@ version of Alpine
 | **Website**    | Simple Flask-based static website.                                          |
 | **Adminer**    | Web UI to manage MariaDB.                                                   |
 | **CAdvisor**   | Container resource usage and performance monitor.                           |
+| **Prometheus** | Collects and scrapes metrics (e.g., from cAdvisor) for monitoring.          |
+| **Grafana**    | Visualizes metrics and provides dashboards for container monitoring.        |
 
 
 NGINX acts as a secure reverse proxy, handling all incoming HTTPS traffic with strong encryption (TLSv1.2 and TLSv1.3 only). It performs the following:
