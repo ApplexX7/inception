@@ -23,7 +23,7 @@ version of Alpine
 
 | Service        | Description                                                                 |
 |----------------|-----------------------------------------------------------------------------|
-| **NGINX**      | Acts as a secure reverse proxy (TLSv1.2/1.3).                      |
+| **NGINX**      | Acts as a secure reverse proxy (TLSv1.2/1.3).                               |
 | **WordPress**  | PHP-based CMS running with `php-fpm`, no NGINX inside.                      |
 | **MariaDB**    | Database service for WordPress.                                             |
 | **Redis**      | Caching system to optimize WordPress performance.                           |
