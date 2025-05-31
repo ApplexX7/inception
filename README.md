@@ -117,13 +117,3 @@ The script `generate_secrets.sh` auto-generates:
 Secrets are mounted into containers using Docker secrets for enhanced security.
 
 ---
-
-## ♻️ Alpine Version Auto-Update
-
-To ensure you're always using the penultimate stable version of Alpine Linux, run:
-
-```bash
-make update
-```
-
----
