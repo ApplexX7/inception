@@ -96,13 +96,11 @@ To access the services via a browser:
 ### Other Commands
 
 ```bash
+make up             # starting the services
 make down           # Stop and remove containers
 make clean          # Down + remove volumes
 make fclean         # Clean + remove images and secrets
 make re             # Full rebuild from scratch
-make logs           # Follow logs for all containers
-make logs-service service=wordpress # Logs for a specific service
-make shell service=nginx           # Open shell in container
 ```
 
 ---
