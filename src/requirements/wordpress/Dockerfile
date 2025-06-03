@@ -40,7 +40,5 @@ RUN chmod 644 /var/www/html/wp-config.php
 
 RUN echo "memory_limit = 512M" > /etc/php83/conf.d/00_custom.ini
 
-EXPOSE 9000
-
 ENTRYPOINT ["/wordpress.sh"]
 

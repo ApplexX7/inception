@@ -1,7 +1,7 @@
 
 services:
   mariadb:
-    image: mariadb
+    image: mariadb:mine
     container_name: mariadb
     build: ./requirements/mariadb
     volumes:
@@ -15,7 +15,7 @@ services:
     restart: always
 
   wordpress:
-    image: wordpress
+    image: wordpress:mine
     container_name: wordpress
     build: ./requirements/wordpress
     depends_on:
@@ -33,7 +33,7 @@ services:
     restart: always
 
   nginx:
-    image: nginx:user
+    image: nginx:mine
     container_name: nginx
     build: ./requirements/nginx
     ports:
@@ -47,7 +47,7 @@ services:
     restart: always
   
   redis:
-    image: redis
+    image: redis:mine
     container_name: redis
     build : ./requirements/bonus/redis
     volumes:
@@ -57,7 +57,7 @@ services:
       - inception
 
   ftp:
-    image: ftp
+    image: ftp:mine
     container_name: ftp
     build: ./requirements/bonus/FTP
     ports:
@@ -76,11 +76,11 @@ services:
 
 
   adminer:
-    image: adminer
+    image: adminer:mine
     container_name: adminer
     build: ./requirements/bonus/Adminer
     ports:
-      - "8080:8080"
+      - "4000:4000"
     networks:
       - inception
     depends_on:
@@ -89,18 +89,22 @@ services:
 
 
   static_site:
-    image: static_site
+    image: static_site:mine
     container_name: static_website
     build: ./requirements/bonus/static_website
     ports:
       - "8000:8000"
+    environment:
+      - GF_PATHS_HOME=/etc/grafana
+      - GF_PATHS_CONFIG=/etc/grafana/grafana.ini
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
     networks:
       - inception
     restart: always
 
   prometheus:
     build: ./requirements/bonus/pro-grafana/prometheus
-    image: prometheus:latest
+    image: prometheus:mine
     container_name: prometheus
     volumes:
       -  prometheus_data:/prometheus
@@ -112,7 +116,7 @@ services:
 
   grafana:
     build: ./requirements/bonus/pro-grafana/grafana
-    image: custom-grafana:latest
+    image: grafana:mine
     container_name: grafana
     depends_on:
       - prometheus
@@ -120,18 +124,16 @@ services:
       - grafana_data:/var/lib/grafana
     ports:
       - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=secret
     networks:
       - inception
     restart: always
 
   cadvisor:
-    image: cadvisor
+    image: cadvisor:mine
     build: ./requirements/bonus/pro-grafana/cadvisor
     container_name: cadvisor
     ports:
-      - "4040:8080"
+      - "8080:8080"
     networks:
       - inception
     volumes:

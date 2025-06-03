@@ -19,6 +19,4 @@ RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
 COPY ./tools/mariadb.sh /
 RUN chmod +x /mariadb.sh
 
-EXPOSE 3306
-
 ENTRYPOINT ["/mariadb.sh"]

@@ -18,9 +18,6 @@ RUN chown -R nobody:nobody /var/www/adminer
 # Run as 'nobody' user for security
 USER nobody
 
-# Expose port 8080 for the Adminer web interface
-EXPOSE 8080
-
 # Start the PHP built-in server
-ENTRYPOINT ["php83", "-S", "0.0.0.0:8080", "/var/www/adminer/adminer.php"]
+ENTRYPOINT ["php83", "-S", "0.0.0.0:4000", "/var/www/adminer/adminer.php"]
 
